@@ -1,0 +1,26 @@
+[project]
+name = "rickandmortyapi"
+version = "0.1.0"
+description = "An API where the user is capable of gathering the information of any of Rick and Morty's characters and see a complete record on that character."
+authors = [
+    {name = "Mateta and PhePato"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg2-binary (>=2.9.11,<3.0.0)",
+    "uvicorn (>=0.40.0,<0.41.0)",
+    "fastapi (>=0.129.0,<0.130.0)",
+    "types-psycopg2 (>=2.9.21.20251012,<3.0.0.0)"
+]
+
+[tool.poetry]
+packages = [
+    { include = "app", from = "src" },
+    { include = "framework", from = "src" },
+    { include = "migrations", from = "src" },
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
