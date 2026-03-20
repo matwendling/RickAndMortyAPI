@@ -2,6 +2,6 @@ from dataclasses import dataclass
 from typing import Optional
 
 @dataclass
-class FindSpecieDTO:
-    id: Optional[str] = None
+class FindClassificationTypeDTO:
+    id: Optional[str] = None 
     name: Optional[str] = None
