@@ -1,4 +1,7 @@
-from dataclasses import asdict
+from dataclasses import asdict, fields
+from uuid import uuid4
+
+import psycopg2
 from app.characters.domain.repositories import ICharacterRepository
 from app.characters.domain.dtos import (
     CreateCharacterDTO, 
@@ -10,28 +13,21 @@ from framework.database.psycopg_repository import PsycopgRepository
 
 class PsycopgCharacterRepository(ICharacterRepository):
     def __init__(self):
-        self.manager = PsycopgRepository("characters", 
-                                            (
-                                            "id",
-                                            "name",
-                                            "status",
-                                            "specie_id",
-                                            "type_id",
-                                            "gender",
-                                            "origin_id",
-                                            "location_id",
-                                            "image",
-                                            "api_id"
-                                            )
-                                        )
+        dto_keys = [f.name for f in fields(CharacterDTO)]
+        self.manager = PsycopgRepository(
+            "characters", dto_keys
+        )
 
     def create(self, create: CreateCharacterDTO) -> CharacterDTO:
         data = asdict(create)
+        data["image"] = psycopg2.Binary(data["image"])
         data["id"] = self.manager.create(data)
         return CharacterDTO(**data)
     
     def create_many(self, create: list[CreateCharacterDTO]) -> list[CharacterDTO]:
         data = [asdict(c) for c in create]
+        for to_create in data:
+            to_create["image"] = psycopg2.Binary(to_create["image"])
         ids = self.manager.create_many(data)
         return [CharacterDTO(id = id, **d) for id, d in zip(ids, data)]
     

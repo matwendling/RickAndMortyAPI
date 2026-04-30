@@ -1,7 +1,6 @@
-from dataclasses import dataclass
+from pydantic import BaseModel
 
-@dataclass
-class CreateCharacterDTO:
+class CreateCharacterRequest(BaseModel):
     name: str
     status: str
     specie_id: str

@@ -11,3 +11,4 @@ class FindCharacterDTO:
     gender: Optional[str] = None
     origin_id: Optional[str] = None
     location_id: Optional[str] = None
+    api_id: Optional[str] = None

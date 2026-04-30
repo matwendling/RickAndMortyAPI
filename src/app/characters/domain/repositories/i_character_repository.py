@@ -18,14 +18,26 @@ class ICharacterRepository(ABC):
         Returns:
             CharacterDTO: A new character.
         """
+
+    @abstractmethod
+    def create_many(self, create: list[CreateCharacterDTO]) -> list[CharacterDTO]:
+        """
+        Creates a new character.
+
+        Args:
+            create: DTO containing the data of the character that will be created.
+
+        Returns:
+            CharacterDTO: A new character.
+        """
     
     @abstractmethod
-    def get(self, where: FindCharacterDTO) -> list[CharacterDTO]:
+    def get(self, where: FindCharacterDTO = FindCharacterDTO()) -> list[CharacterDTO]:
         """
         Searches for one or multiple characters following specific filter criteria.
 
         Args:
-            where: DTO containing filter criteria.
+            where: DTO containing filter criteria. 
 
         Returns:
             list[CharacterDTO]: Returns a list of all the characters matching the filter.

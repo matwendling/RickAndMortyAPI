@@ -83,7 +83,7 @@ class CreateTables(IMigration):
             origin_id UUID NOT NULL,
             location_id UUID NOT NULL,
             image BYTEA,
-            api_id INT,
+            api_id VARCHAR(32),
 
             CONSTRAINT fk_specie
                 FOREIGN KEY (specie_id)

@@ -8,7 +8,7 @@ from framework.database.load_database_connection_settings import (
 )
 
 class PsycopgRepository:
-    def __init__(self, table: str, keys: tuple[str]):
+    def __init__(self, table: str, keys: tuple[str, ...]):
         connection_info = _load_database_connection_settings()
         
         self.conn: connection = pg.connect(**connection_info)
@@ -32,7 +32,6 @@ class PsycopgRepository:
             values = values.removesuffix(", ")
 
         sql_query = f"INSERT INTO {self.table} ({keys}) VALUES ({values}) RETURNING id;"
-
         self.cur.execute(sql_query, create)
         self.conn.commit()
         return self.cur.fetchall()[0][0]
@@ -48,7 +47,6 @@ class PsycopgRepository:
         keys = self.__keys_to_str()
 
         sql_query = f"INSERT INTO {self.table} ({keys}) VALUES %s RETURNING id;"
-
         extras.execute_values(self.cur, sql_query, values, page_size=1000,)
         self.conn.commit()
         return [str(e[0]) for e in self.cur.fetchall()]
