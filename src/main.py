@@ -5,6 +5,9 @@ import os
 from app.characters.entrypoint.routes.character_routes import character_route
 from app.classification_types.entrypoint.routes.classification_types_routes import classification_types_route
 from app.episodes.entrypoint.routes.episode_routes import episode_route
+from app.locations.entrypoint.routes.location_routes import location_route
+from app.origins.entrypoint.routes.origin_routes import origin_route
+from app.species.entrypoint.routes.specie_routes import specie_route
 
 app = FastAPI()
 
@@ -23,6 +26,9 @@ app = FastAPI()
 app.include_router(character_route)
 app.include_router(classification_types_route)
 app.include_router(episode_route)
+app.include_router(location_route)
+app.include_router(origin_route)
+app.include_router(specie_route)
 
 if __name__ == "__main__":          
     api_host = os.getenv("API_HOST")
