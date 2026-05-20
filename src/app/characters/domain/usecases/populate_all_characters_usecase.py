@@ -7,6 +7,7 @@ from app.classification_types.domain.dtos.create_classification_type import Crea
 from app.classification_types.domain.dtos.find_classification_type import FindClassificationTypeDTO
 from app.classification_types.domain.repositories.i_classification_type_repository import IClassificationTypeRepository
 from app.episodes.domain.dtos.create_episode import CreateEpisodeDTO
+from app.episodes.domain.flows.populate_all_episodes_flow import PopulateAllEpisodesFlow
 from app.locations.domain.dtos.create_location import CreateLocationDTO
 from app.locations.domain.dtos.find_location import FindLocationDTO
 from app.locations.domain.repositories.i_location_repository import ILocationRepository
@@ -27,6 +28,7 @@ class PopulateAllCharactersUsecase:
         type_repository: IClassificationTypeRepository,
         origin_repository: IOriginRepository,
         location_repository: ILocationRepository,
+        populate_all_episodes_flow: PopulateAllEpisodesFlow
     ) -> None:
         self.character_repository = character_repository
         self.character_client = character_client
@@ -34,19 +36,14 @@ class PopulateAllCharactersUsecase:
         self.type_repository = type_repository
         self.origin_repository = origin_repository
         self.location_repository = location_repository
+        self.populate_all_episodes_flow = populate_all_episodes_flow
 
     def execute(self) -> None:
+        self.populate_all_episodes_flow.execute()
         all_existing_characters = self.character_repository.get()
         if len(all_existing_characters) == 0:
             characters = []
-            episodes = set()
-            character_episodes = []
             for character_client in self.character_client.fetch_all():
-                episodes.add(
-                    CreateEpisodeDTO(
-                        url=character_client.episodes
-                    )
-                )
                 characters.append(
                     CreateCharacterDTO(
                         name=character_client.name,
@@ -60,8 +57,7 @@ class PopulateAllCharactersUsecase:
                         api_id=character_client.id,
                     )
                 )
-            for character in characters:
-                self.character_repository.create(character)
+            self.character_repository.create_many(characters)
 
     def __handle_specie(self, character_client: CharacterClientDTO) -> str:
         found_specie = self.specie_repository.get(

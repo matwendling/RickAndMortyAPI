@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from app.origins.domain.repositories import IOriginRepository
 from app.origins.domain.dtos import (
     CreateOriginDTO, 
@@ -10,7 +10,8 @@ from framework.database.psycopg_repository import PsycopgRepository
 
 class PsycopgOriginRepository(IOriginRepository):
     def __init__(self):
-        self.manager = PsycopgRepository("origins", ("id", "name"))
+        dto_keys = [f.name for f in fields(OriginDTO)]
+        self.manager = PsycopgRepository("origins", dto_keys)
 
     def create(self, create: CreateOriginDTO) -> OriginDTO:
         data = asdict(create)

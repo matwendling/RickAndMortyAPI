@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from app.classification_types.domain.repositories import IClassificationTypeRepository
 from app.classification_types.domain.dtos import (
     CreateClassificationTypeDTO, 
@@ -10,7 +10,8 @@ from framework.database.psycopg_repository import PsycopgRepository
 
 class PsycopgClassificationTypeRepository(IClassificationTypeRepository):
     def __init__(self):
-        self.manager = PsycopgRepository("classification_types", ("id", "name"))
+        dto_keys = [f.name for f in fields(ClassificationTypeDTO)]
+        self.manager = PsycopgRepository("classification_types", dto_keys)
 
     def create(self, create: CreateClassificationTypeDTO) -> ClassificationTypeDTO:
         data = asdict(create)

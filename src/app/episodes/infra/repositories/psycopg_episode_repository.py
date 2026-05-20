@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from app.episodes.domain.repositories import IEpisodeRepository
 from app.episodes.domain.dtos import (
     CreateEpisodeDTO, 
@@ -10,7 +10,8 @@ from framework.database.psycopg_repository import PsycopgRepository
 
 class PsycopgEpisodeRepository(IEpisodeRepository):
     def __init__(self):
-        self.manager = PsycopgRepository("episodes", ("id", "url", "num", "season"))
+        dto_keys = [f.name for f in fields(EpisodeDTO)]
+        self.manager = PsycopgRepository("episodes", dto_keys)
 
     def create(self, create: CreateEpisodeDTO) -> EpisodeDTO:
         data = asdict(create)

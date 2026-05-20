@@ -20,6 +20,11 @@ class IEpisodeRepository(ABC):
         """
     
     @abstractmethod
+    def create_many(self, create: list[CreateEpisodeDTO]) -> list[EpisodeDTO]:
+        """
+        """
+    
+    @abstractmethod
     def get(self, where: FindEpisodeDTO) -> list[EpisodeDTO]:
         """
         Searches for one or multiple episodes following specific filter criteria.

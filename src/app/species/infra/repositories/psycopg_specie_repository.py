@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from app.species.domain.repositories import ISpecieRepository
 from app.species.domain.dtos import (
     CreateSpecieDTO, 
@@ -10,7 +10,8 @@ from framework.database.psycopg_repository import PsycopgRepository
 
 class PsycopgSpecieRepository(ISpecieRepository):
     def __init__(self):
-        self.manager = PsycopgRepository("species", ("id", "name"))
+        dto_keys = [f.name for f in fields(SpecieDTO)]
+        self.manager = PsycopgRepository("species", dto_keys)
 
     def create(self, create: CreateSpecieDTO) -> SpecieDTO:
         data = asdict(create)

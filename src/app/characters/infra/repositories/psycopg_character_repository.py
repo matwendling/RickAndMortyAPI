@@ -25,8 +25,6 @@ class PsycopgCharacterRepository(ICharacterRepository):
     
     def create_many(self, create: list[CreateCharacterDTO]) -> list[CharacterDTO]:
         data = [asdict(c) for c in create]
-        for to_create in data:
-            to_create["image"] = psycopg2.Binary(to_create["image"])
         ids = self.manager.create_many(data)
         return [CharacterDTO(id = id, **d) for id, d in zip(ids, data)]
     

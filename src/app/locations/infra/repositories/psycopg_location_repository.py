@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict, fields
 from app.locations.domain.repositories import ILocationRepository
 from app.locations.domain.dtos import (
     CreateLocationDTO, 
@@ -10,7 +10,8 @@ from framework.database.psycopg_repository import PsycopgRepository
 
 class PsycopgLocationRepository(ILocationRepository):
     def __init__(self):
-        self.manager = PsycopgRepository("locations", ("id", "name"))
+        dto_keys = [f.name for f in fields(LocationDTO)]
+        self.manager = PsycopgRepository("locations", dto_keys)
 
     def create(self, create: CreateLocationDTO) -> LocationDTO:
         data = asdict(create)

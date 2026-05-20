@@ -8,7 +8,7 @@ from framework.database.load_database_connection_settings import (
 )
 
 class PsycopgRepository:
-    def __init__(self, table: str, keys: tuple[str, ...]):
+    def __init__(self, table: str, keys: list[str]):
         connection_info = _load_database_connection_settings()
         
         self.conn: connection = pg.connect(**connection_info)

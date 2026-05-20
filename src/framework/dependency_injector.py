@@ -8,7 +8,9 @@ from app.characters.infra.clients.rest_api_character_client import RestAPICharac
 from app.characters.infra.repositories.psycopg_character_repository import PsycopgCharacterRepository
 from app.classification_types.domain.repositories.i_classification_type_repository import IClassificationTypeRepository
 from app.classification_types.infra.repositories.psycopg_classification_type import PsycopgClassificationTypeRepository
+from app.episodes.domain.clients.i_episode_client import IEpisodeClient
 from app.episodes.domain.repositories.i_episode_repository import IEpisodeRepository
+from app.episodes.infra.clients.rest_api_episodes_client import RestAPIEpisodesClient
 from app.episodes.infra.repositories.psycopg_episode_repository import PsycopgEpisodeRepository
 from app.locations.domain.repositories.i_location_repository import ILocationRepository
 from app.locations.infra.repositories.psycopg_location_repository import PsycopgLocationRepository
@@ -34,6 +36,7 @@ class DependencyInjector:
 			"client": {
 				"rickandmorty": {
 					"character_client": RestAPICharacterClient,
+					"episode_client": RestAPIEpisodesClient,
 				}
 			}
 		}
@@ -58,6 +61,9 @@ class DependencyInjector:
 	
 	def get_character_client(self) -> ICharacterClient:
 		return self.__load_adapter("client", "character_client")
+	
+	def get_episode_client(self) -> IEpisodeClient:
+		return self.__load_adapter("client", "episode_client")
 
 	def __injections_payload_reader(self) -> dict:
 		file_path = os.getenv("INJECTIONS_PATH")
