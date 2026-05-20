@@ -10,5 +10,5 @@ class CharacterDTO:
     gender: str
     origin_id: str
     location_id: str
-    image: bytes
+    image: str
     api_id: str

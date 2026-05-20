@@ -3,6 +3,8 @@ import uvicorn                      # servidor, executa servidor TCP aplicando o
 import os
 
 from app.characters.entrypoint.routes.character_routes import character_route
+from app.classification_types.entrypoint.routes.classification_types_routes import classification_types_route
+from app.episodes.entrypoint.routes.episode_routes import episode_route
 
 app = FastAPI()
 
@@ -19,6 +21,8 @@ app = FastAPI()
         # GET (127.0.0.1:8001/location/all)
         
 app.include_router(character_route)
+app.include_router(classification_types_route)
+app.include_router(episode_route)
 
 if __name__ == "__main__":          
     api_host = os.getenv("API_HOST")

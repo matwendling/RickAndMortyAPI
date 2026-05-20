@@ -6,6 +6,7 @@ from app.classification_types.domain.dtos import classification_type
 from app.classification_types.domain.dtos.create_classification_type import CreateClassificationTypeDTO
 from app.classification_types.domain.dtos.find_classification_type import FindClassificationTypeDTO
 from app.classification_types.domain.repositories.i_classification_type_repository import IClassificationTypeRepository
+from app.episodes.domain.dtos.create_episode import CreateEpisodeDTO
 from app.locations.domain.dtos.create_location import CreateLocationDTO
 from app.locations.domain.dtos.find_location import FindLocationDTO
 from app.locations.domain.repositories.i_location_repository import ILocationRepository
@@ -38,7 +39,14 @@ class PopulateAllCharactersUsecase:
         all_existing_characters = self.character_repository.get()
         if len(all_existing_characters) == 0:
             characters = []
+            episodes = set()
+            character_episodes = []
             for character_client in self.character_client.fetch_all():
+                episodes.add(
+                    CreateEpisodeDTO(
+                        url=character_client.episodes
+                    )
+                )
                 characters.append(
                     CreateCharacterDTO(
                         name=character_client.name,

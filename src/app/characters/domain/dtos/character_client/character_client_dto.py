@@ -12,7 +12,7 @@ class CharacterClientDTO:
     origin: str
     location: str
     episodes: list[str]
-    image: bytes
+    image: str
 
     def __str__(self) -> str:
         
@@ -26,6 +26,6 @@ class CharacterClientDTO:
             "origin": self.origin,
             "location": self.location,
             "episodes": self.episodes,
-            "image": f"{self.name} - image",
+            "image": self.image
         } 
         return json.dumps(obj, indent=3)

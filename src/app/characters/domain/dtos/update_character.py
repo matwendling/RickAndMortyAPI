@@ -11,5 +11,5 @@ class UpdateCharacterDTO:
     gender: Optional[str] = None
     origin_id: Optional[str] = None
     location_id: Optional[str] = None
-    image: Optional[bytes] = None
+    image: Optional[str] = None
     api_id: Optional[str] = None

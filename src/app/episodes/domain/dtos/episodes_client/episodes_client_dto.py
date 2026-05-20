@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class CreateEpisodeDTO:
+class EpisodesClientDTO:
     name: str
     num: int
     season: int

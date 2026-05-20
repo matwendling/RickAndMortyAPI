@@ -10,5 +10,3 @@ class FindCharacterRequest(BaseModel):
     gender: Optional[str] = None
     origin_id: Optional[str] = None
     location_id: Optional[str] = None
-    image: Optional[bytes] = None
-    api_id: Optional[str] = None

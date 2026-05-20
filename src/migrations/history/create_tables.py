@@ -23,11 +23,11 @@ class CreateTables(IMigration):
         -- ============================================
         CREATE TABLE episodes (
             id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-            url VARCHAR(255) NOT NULL,
+            name VARCHAR(255) NOT NULL,
             num INT NOT NULL,
             season INT NOT NULL,
 
-            CONSTRAINT unique_episode_row UNIQUE (url, num, season)
+            CONSTRAINT unique_episode_row UNIQUE (num, season)
         );
 
         -- ============================================
@@ -82,7 +82,7 @@ class CreateTables(IMigration):
             gender character_gender NOT NULL,
             origin_id UUID NOT NULL,
             location_id UUID NOT NULL,
-            image BYTEA,
+            image TEXT NOT NULL,
             api_id VARCHAR(32),
 
             CONSTRAINT fk_specie

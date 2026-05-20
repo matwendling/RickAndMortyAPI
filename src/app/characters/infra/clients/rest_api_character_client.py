@@ -12,8 +12,11 @@ class RestAPICharacterClient(ICharacterClient):
         return self.__serializer_one(res)
         
     def fetch_all(self) -> list[CharacterClientDTO]:
-        res = requests.get(self.url).json()["results"]
-        return [self.__serializer_one(d) for d in res]
+        characters_count = requests.get(self.url).json()["info"]["count"]
+        characters_num = [f"{a}" for a in range(0, characters_count)]
+        url = self.url + "/" + ",".join(characters_num)
+        response = requests.get(url).json()
+        return [self.__serializer_one(res) for res in response]
 
     def fecth_many(self, quant: list[str]) -> list[CharacterClientDTO]:
         url = f"{self.url}/"
@@ -32,7 +35,6 @@ class RestAPICharacterClient(ICharacterClient):
             e.removeprefix("https://rickandmortyapi.com/api/episode/") 
             for e in data["episode"]
         ]
-        image = requests.get(data["image"]).content
         return CharacterClientDTO(
             id=data["id"],
             name=data["name"],
@@ -43,5 +45,5 @@ class RestAPICharacterClient(ICharacterClient):
             origin=data["origin"]["name"],
             location=data["location"]["name"],
             episodes=episodes,
-            image=image,
+            image=data["image"],
         )

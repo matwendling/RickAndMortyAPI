@@ -20,7 +20,6 @@ class PsycopgCharacterRepository(ICharacterRepository):
 
     def create(self, create: CreateCharacterDTO) -> CharacterDTO:
         data = asdict(create)
-        data["image"] = psycopg2.Binary(data["image"])
         data["id"] = self.manager.create(data)
         return CharacterDTO(**data)
     

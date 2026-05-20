@@ -8,6 +8,8 @@ from app.characters.infra.clients.rest_api_character_client import RestAPICharac
 from app.characters.infra.repositories.psycopg_character_repository import PsycopgCharacterRepository
 from app.classification_types.domain.repositories.i_classification_type_repository import IClassificationTypeRepository
 from app.classification_types.infra.repositories.psycopg_classification_type import PsycopgClassificationTypeRepository
+from app.episodes.domain.repositories.i_episode_repository import IEpisodeRepository
+from app.episodes.infra.repositories.psycopg_episode_repository import PsycopgEpisodeRepository
 from app.locations.domain.repositories.i_location_repository import ILocationRepository
 from app.locations.infra.repositories.psycopg_location_repository import PsycopgLocationRepository
 from app.origins.domain.repositories.i_origin_repository import IOriginRepository
@@ -26,6 +28,7 @@ class DependencyInjector:
 					"type_repository": PsycopgClassificationTypeRepository,
 					"origin_repository": PsycopgOriginRepository,
 					"location_repository": PsycopgLocationRepository,
+					"episode_repository": PsycopgEpisodeRepository
 				}
 			},
 			"client": {
@@ -49,6 +52,9 @@ class DependencyInjector:
 
 	def get_location_repository_adapter(self) -> ILocationRepository:
 		return self.__load_adapter("database", "location_repository")
+	
+	def get_episode_repository_adapter(self) -> IEpisodeRepository:
+		return self.__load_adapter("database", "episode_repository")
 	
 	def get_character_client(self) -> ICharacterClient:
 		return self.__load_adapter("client", "character_client")
